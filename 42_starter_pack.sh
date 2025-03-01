@@ -28,9 +28,9 @@ echo "bin" >> .gitignore
 echo "obj" >> .gitignore
 echo "$NAME" >> .gitignore
 
-/sgoinfre/oelleaum/nvim/bin/nvim "Makefile" -c "Stdheader" -c "wq"
-/sgoinfre/oelleaum/nvim/bin/nvim "src/$NAME.c" -c "Stdheader" -c "wq"
-/sgoinfre/oelleaum/nvim/bin/nvim "include/$NAME.h" -c "Stdheader" -c "wq"
+/sgoinfre/$USER/nvim/bin/nvim "Makefile" -c "Stdheader" -c "wq"
+/sgoinfre/$USER/nvim/bin/nvim "src/$NAME.c" -c "Stdheader" -c "wq"
+/sgoinfre/$USER/nvim/bin/nvim "include/$NAME.h" -c "Stdheader" -c "wq"
 
 #.h blueprint
 NAME_UP=$(echo "$NAME" | tr '[:lower:]' '[:upper:]') 
