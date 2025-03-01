@@ -1,17 +1,24 @@
 
 #!/bin/bash
 
-dossier_principal="."
+if [[ -n $(find . -type d -name "bonus") ]]; then
+    cd bonus
+    find . -type f \( -name "*.c" -o -name "*.h" \) | while read -r FILE; do
+        if [[ ! "$FILE" =~ "_bonus" ]]; then
+            FILE_PATH=$(dirname "$FILE")
+            NAME=$(basename "$FILE")
+            EXTLESS_NAME="${NAME%.*}"
+            EXTENSION="${NAME##*.}"
 
-find "$dossier_principal" -type f \( -name "*.c" -o -name "*.h" \) | while read -r fichier; do
-    chemin=$(dirname "$fichier")
-    nom=$(basename "$fichier")
-    nom_sans_extension="${nom%.*}"
-    extension="${nom##*.}"
+            NEW_NAME="${EXTLESS_NAME}_bonus.${EXTENSION}"
+            NEW_PATH="${FILE_PATH}/${NEW_NAME}"
 
-    nouveau_nom="${nom_sans_extension}_bonus.${extension}"
-    nouveau_chemin="${chemin}/${nouveau_nom}"
+            mv "$FILE" "$NEW_PATH"
+            echo "File renamed : $FILE -> $NEW_NAME"
+        fi
+    done
+else
+    echo "No 'bonus' folder found"
+fi
 
-    mv "$fichier" "$nouveau_chemin"
-    echo "Renommé : $fichier -> $nouveau_chemin"
-done
+
