@@ -11,3 +11,4 @@ cd $2
 norminette $(find . -name "*.c" -o -name "*.h") | grep -E "Error|Warning"
 make
 ./$2
+code .
