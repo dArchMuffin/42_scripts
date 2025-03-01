@@ -15,6 +15,7 @@ Run in your project folder :
 
 ### eval.sh
 To run at start of an evaluation to check norm, project name and compiling with makefile.
+
 ./eval.sh <repo_to_clone> <project_name>
 
 ### alias_manager.sh (ongoing)
