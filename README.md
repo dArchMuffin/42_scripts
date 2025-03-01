@@ -7,10 +7,12 @@ From little automations scripts to full testers for your projects
 
 ### 42_starter_pack.sh
 Clones your freshly opened project repo, and creates common folders and files for 42 projects.
+
 ./42 _start_pack.sh <repo_git> <project_name>
 
 ### rename_bonus.sh 
 Run in your project folder :
+
 ./rename_bonus.sh
 
 ### eval.sh
@@ -20,6 +22,7 @@ To run at start of an evaluation to check norm, project name and compiling with 
 
 ### alias_manager.sh (ongoing)
 To list and add easily aliases
+
 ./alias_manager.sh add <alias> <exec>
 ./alias_manager.sh list
 
@@ -38,9 +41,12 @@ Run in your project folder :
 ### push_swap_tester (ongoing)
 Trying to centralized my scripts I used to test my push_swap
 
+Work in progres ...
+
 Run in your project folder :
 ./push_swap_tester.sh
 
 ### pipex_tester (ongoing)
-Building a tester for my pipex project from the start of the project : experimenting test drive developpment
+Building a tester for my pipex project from the start of the project : experimenting Test Driven Developpment
+
 Work in progress ...
