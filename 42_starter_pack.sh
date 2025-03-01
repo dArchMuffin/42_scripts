@@ -11,9 +11,6 @@ done
 
 cd $NAME
 
-# cloner un git blueprint 
-# puis copier son contenu dans $NAME
-# puis editer chaque fichier avec $NAME
 mkdir src
 mkdir include
 mkdir bin
@@ -28,11 +25,15 @@ echo "bin" >> .gitignore
 echo "obj" >> .gitignore
 echo "$NAME" >> .gitignore
 
+# nvim custom config 
 /sgoinfre/$USER/nvim/bin/nvim "Makefile" -c "Stdheader" -c "wq"
 /sgoinfre/$USER/nvim/bin/nvim "src/$NAME.c" -c "Stdheader" -c "wq"
 /sgoinfre/$USER/nvim/bin/nvim "include/$NAME.h" -c "Stdheader" -c "wq"
+# VScode : Uncomment these lines
+# code Makefile -c <cmd_for_header>
+# code src/$NAME.c -c <cmd_for_header>
+# code include/$NAME.h -c <cmd_for_header>
 
-#.h blueprint
 NAME_UP=$(echo "$NAME" | tr '[:lower:]' '[:upper:]') 
 echo "#ifndef \'$NAME_UP\'_H
 # define \'$NAME_UP\'_H
@@ -40,7 +41,6 @@ echo "#ifndef \'$NAME_UP\'_H
 //$NAME.c
 
 #endif" >> include/$NAME.h
-#.c blueprint
 echo "
 #include \"$NAME.h\"
 
