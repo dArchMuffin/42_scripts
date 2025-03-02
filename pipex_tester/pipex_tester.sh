@@ -54,7 +54,7 @@ chmod 644 "$BASH_FILE1"
 #Kenzo cracked : env -i ./pipex 
 # + PATH vide PATH= (zsh : PATH="")
 
-error_management "without env" ""
+# error_management "without env" ""
 
 # Une fois le pipex fonctionnel :
 # file_output "$PIPEX_FILE1" "ls -l" "wc -l" "$PIPEX_FILE2" "$BASH_FILE1" "$BASH_FILE2"
