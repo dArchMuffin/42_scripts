@@ -56,4 +56,4 @@ chmod 644 "$BASH_FILE1"
 # Une fois le pipex fonctionnel :
 # file_output "$PIPEX_FILE1" "ls -l" "wc -l" "$PIPEX_FILE2" "$BASH_FILE1" "$BASH_FILE2"
 
-# rm -rf $FOLDER
+rm -rf $FOLDER

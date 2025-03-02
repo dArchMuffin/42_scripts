@@ -33,7 +33,7 @@ error_management() {
   # echo "checked = $CHECKED"
 
   if [[ $CHECKED -eq 0 && $LEAKS -eq 3 ]]; then
-    echo "OK : ./pipex $FILE1_P $CMD1 $CMD2 $FILE2_P | \$? = $PIPEX_STDERR"
+    echo "OK : $TEST_NAME ./pipex $FILE1_P $CMD1 $CMD2 $FILE2_P | \$? = $PIPEX_STDERR"
   elif [[ $CHECKED -ne 0 && $LEAKS -eq 3 ]]; then
     echo "KO : ./pipex $FILE1_P $CMD1 $CMD2 $FILE2_P | \$? = $PIPEX_STDERR"
     local LOG=$LOG_FOLDER/test_$(date +%s).log
