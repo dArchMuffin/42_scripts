@@ -54,7 +54,7 @@ echo "NAME=$NAME
 #BONUS_NAME=$(echo $NAME)_bonus
 
 CC=cc
-FLAGS=-Wall -Werror -Wextra
+CFLAGS=-Wall -Werror -Wextra
 INC=-I include
 INC_LIBFT=-I libft/include
 #INC_BONUS=-I bonus/include
@@ -114,6 +114,9 @@ LIBFT_SRC_FILES = \\
     libft/src/get_next_line_utils.c
 
 LIBFT_OBJ_FILES = \$(LIBFT_SRC_FILES:.c=.o)
+
+SRC_FILES = \
+    pipex.c
 
 OBJ_FILES = \$(SRC_FILES:.c=.o)
 OBJ = \$(addprefix \$(OBJ_DIR)/,\$(OBJ_FILES))

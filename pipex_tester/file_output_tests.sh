@@ -11,7 +11,7 @@ file_output() {
 
   local CHECKED=$(diff -q "$FILE2_P" "$FILE2_B" | wc -l)
 
-  # ajouter flag track origin + orphenates pour valgrind 
+  # ajouter flag track origin + orphenates pour valgrind + trace children=yes
   local VALGRIND=$(valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./pipex "$FILE1_P" "$CMD1" "$CMD2" "$FILE2_P" 2>&1)
   local LEAKS=$(echo "$VALGRIND" | grep "All heap blocks were freed -- no leaks are possible" | wc -l)
   LEAKS+=$(echo "$VALGRIND" | grep "ERROR SUMMARY: 0 errors from 0 contexts" | wc -l)

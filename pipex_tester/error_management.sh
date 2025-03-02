@@ -20,6 +20,7 @@ error_management() {
   bash -c "< $FILE1_B $CMD1 | $CMD2 > $FILE2_B" > "$BASH_OUTPUT_FILE" 2>&1
   BASH_STDERR=$?
 
+# + trace children=yes
   VALGRIND=$(valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./pipex "$FILE1_P" "$CMD1" "$CMD2" "$FILE2_P" 2>&1)
   LEAKS=$(echo "$VALGRIND" | grep "All heap blocks were freed -- no leaks are possible" | wc -l)
   LEAKS=$((LEAKS + $(echo "$VALGRIND" | grep "ERROR SUMMARY: 0 errors from 0 contexts" | wc -l)))
