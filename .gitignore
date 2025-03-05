@@ -1,1 +1,4 @@
-push_swap_tester.sh
+pipex_tester/pipex
+pipex_tester/log
+pipex_tester/outfile
+pipex_tester/pipex_tester_tmp/
