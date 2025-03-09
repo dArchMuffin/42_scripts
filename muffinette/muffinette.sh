@@ -5,21 +5,31 @@ RED="\033[0;31m"
 NC="\033[0m"
 
 PROMPT_TO_CLEAN="^oelleaum@minishell"
+LEAKS_FLAG=0
 
 if [[ -z $1 ]]; then
   echo "Usage : ./handy_minishell_tester.sh <cmd1> <cmd2> <cmd3> <cmd4>"
   exit 1
 fi
 
+if [[ $(find . -maxdepth 1 -type f -name minishell | wc -l) == 0 ]]; then
+  echo "Error : no 'minishell' binary found in current working directory"
+  exit 1
+fi
+
+if [[ $1 == "--leaks" ]]; then
+  LEAKS_FLAG=1;
+  shift
+fi
+
+if [[ $1 == "clean" ]]; then
+  rm -rd log
+  exit 1
+fi
+
 # ajouter une option :
 #   checker Leaks ou pas (plus rapide sans)
 #   chercher un executable a l'endroit ou on se trouve
-
-
-if [[ $1 == 'clean' ]]; then
-  rm -rf log
-  exit 1
-fi
 
 mkdir -p log
 
@@ -36,10 +46,7 @@ $INPUT
 EOF
 EXIT_CODE_B=$?
 
-# Valgrind : leaks
-valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --show-mismatched-frees=yes --track-fds=yes --trace-children=yes ./minishell << EOF 2>&1 | tee log/valgrind_output | grep -v "$PROMPT_TO_CLEAN" > /dev/null
-$INPUT
-EOF
+
 
 # STDERR
 ./minishell << EOF | grep -v "$PROMPT_TO_CLEAN" 2> log/minishell_stderr > /dev/null
@@ -50,17 +57,21 @@ bash << EOF 2> log/bash_stderr > /dev/null
 $INPUT
 EOF
 
+# Valgrind : leaks
 # redir_out
 # redir_out append
 # redir_in
 # redir_in append
 #
 
+CLEAN=0
+
 # Print Result 
 if diff -q log/minishell_output log/bash_output > /dev/null; then
   echo -e "STDOUT : ${GREEN}OK${NC}"
 else
   echo -e "STDOUT : ${RED}KO${NC}"
+  CLEAN=1
   diff log/minishell_output log/bash_output
 fi
 
@@ -68,6 +79,7 @@ if diff -q log/minishell_stderr log/bash_stderr > /dev/null; then
   echo -e "STDERR : ${GREEN}OK${NC}"
 else
   echo -e "STDERR : ${RED}KO${NC}"
+  CLEAN=1
   diff log/minishell_stderr log/bash_stderr
 fi
 
@@ -75,21 +87,19 @@ fi
 if [[ "$EXIT_CODE_P" -ne "$EXIT_CODE_B" ]]; then
   echo -e "EXIT : ${RED}KO${NC}"
   echo -e "bash : $EXIT_CODE_B\nminishell: $EXIT_CODE_P"
+  CLEAN=1
 else
   echo -e "EXIT : ${GREEN}OK${NC}"
 fi
 
-if ! grep -q "LEAK SUMMARY" log/valgrind_output; then
-  echo -e "${GREEN}NO LEAKS${NC}"
-else
-  echo -e "${RED}LEAKS !${NC} : \e]8;;file://$(pwd)/log/valgrind_output\alog/valgrind_output\e]8;;\a"
+if [[ $LEAKS_FLAG == 1 ]]; then
+  . ./muffinette_leaks.sh $INPUT
+  CLEAN=1
 fi
 
-# echo "Errors val"
-# echo "fd"
-# echo "childs"
-#
 # ./muffinette.sh ls cd pwd "cd 42" ls "cd .." "env | grep PATH"
-#
-# Si tout est ok : on rm -rf log
+
+if [[ $CLEAN == 0 ]]; then
+  rm -rd log
+fi
 #
