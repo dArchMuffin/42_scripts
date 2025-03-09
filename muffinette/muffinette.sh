@@ -11,6 +11,11 @@ if [[ -z $1 ]]; then
   exit 1
 fi
 
+# ajouter une option :
+#   checker Leaks ou pas (plus rapide sans)
+#   chercher un executable a l'endroit ou on se trouve
+
+
 if [[ $1 == 'clean' ]]; then
   rm -rf log
   exit 1
@@ -45,6 +50,12 @@ bash << EOF 2> log/bash_stderr > /dev/null
 $INPUT
 EOF
 
+# redir_out
+# redir_out append
+# redir_in
+# redir_in append
+#
+
 # Print Result 
 if diff -q log/minishell_output log/bash_output > /dev/null; then
   echo -e "STDOUT : ${GREEN}OK${NC}"
@@ -67,16 +78,18 @@ if [[ "$EXIT_CODE_P" -ne "$EXIT_CODE_B" ]]; then
 else
   echo -e "EXIT : ${GREEN}OK${NC}"
 fi
-# echo "Outfile >>"
-#
 
 if ! grep -q "LEAK SUMMARY" log/valgrind_output; then
   echo -e "${GREEN}NO LEAKS${NC}"
 else
   echo -e "${RED}LEAKS !${NC} : \e]8;;file://$(pwd)/log/valgrind_output\alog/valgrind_output\e]8;;\a"
 fi
+
 # echo "Errors val"
 # echo "fd"
 # echo "childs"
 #
 # ./muffinette.sh ls cd pwd "cd 42" ls "cd .." "env | grep PATH"
+#
+# Si tout est ok : on rm -rf log
+#
