@@ -44,6 +44,13 @@ $INPUT
 EOF
 
 # Print Result 
+if diff -q log/minishell_output log/bash_output > /dev/null; then
+  echo -e "STDOUT : ${GREEN}OK${NC}"
+else
+  echo -e "STDOUT : ${RED}KO${NC}"
+  diff log/minishell_output log/bash_output
+fi
+
 if diff -q log/minishell_stderr log/bash_stderr > /dev/null; then
   echo -e "STDERR : ${GREEN}OK${NC}"
 else
@@ -51,12 +58,6 @@ else
   diff log/minishell_stderr log/bash_stderr
 fi
 
-if diff -q log/minishell_output log/bash_output > /dev/null; then
-  echo -e "STDOUT : ${GREEN}OK${NC}"
-else
-  echo -e "STDOUT : ${RED}KO${NC}"
-  diff log/minishell_output log/bash_output
-fi
 
 if [[ "$EXIT_CODE_P" -ne "$EXIT_CODE_B" ]]; then
   echo -e "EXIT : ${RED}KO${NC}"
