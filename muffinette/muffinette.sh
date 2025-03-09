@@ -27,6 +27,15 @@ if [[ $1 == "clean" ]]; then
   exit 1
 fi
 
+url="https://profile.intra.42.fr/users/jlacaze-"
+text="jlacaze-"
+
+if [[ $1 == "--muffin" ]]; then
+  echo "error: bakery not implemented yet"
+  echo -e "waiting pull request from \e]8;;${url}\a${text}\e]8;;\a"
+  exit 1
+fi
+
 # ajouter une option :
 #   checker Leaks ou pas (plus rapide sans)
 #   chercher un executable a l'endroit ou on se trouve
