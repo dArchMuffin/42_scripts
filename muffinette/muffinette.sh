@@ -1,8 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
 GREEN="\033[0;32m"
 RED="\033[0;31m"
 NC="\033[0m"
+
+PROMPT_TO_CLEAN="^oelleaum@minishell"
 
 if [[ -z $1 ]]; then
   echo "Usage : ./handy_minishell_tester.sh <cmd1> <cmd2> <cmd3> <cmd4>"
@@ -19,27 +21,27 @@ mkdir -p log
 INPUT=$(printf "%s\n" "$@")
 
 # STDOUT && Exit CODE 
-./minishell << EOF | grep -v "\[Minishell" > log/minishell_output
+./minishell << EOF | grep -v "$PROMPT_TO_CLEAN" > log/minishell_output
 $INPUT
 EOF
 EXIT_CODE_P=$?
 
-bash << EOF | grep -v "\[Minishell" > log/bash_output
+bash << EOF | grep -v "$PROMPT_TO_CLEAN" > log/bash_output
 $INPUT
 EOF
 EXIT_CODE_B=$?
 
-# Valgrind 
-valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./minishell << EOF 2>&1 | tee log/valgrind_output | grep -v "\[Minishell" > /dev/null
+# Valgrind : leaks
+valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --show-mismatched-frees=yes --track-fds=yes --trace-children=yes ./minishell << EOF 2>&1 | tee log/valgrind_output | grep -v "$PROMPT_TO_CLEAN" > /dev/null
 $INPUT
 EOF
 
 # STDERR
-./minishell << EOF | grep -v "\[Minishell" 2> log/minishell_stderr > /dev/null
+./minishell << EOF | grep -v "$PROMPT_TO_CLEAN" 2> log/minishell_stderr > /dev/null
 $INPUT
 EOF
 
-bash << EOF 2> log/bash_stderr  > /dev/null
+bash << EOF 2> log/bash_stderr > /dev/null
 $INPUT
 EOF
 
@@ -68,11 +70,10 @@ fi
 # echo "Outfile >>"
 #
 
-if grep -q "All heap blocks were freed -- no leaks are possible" log/valgrind_output; then
+if ! grep -q "LEAK SUMMARY" log/valgrind_output; then
   echo -e "${GREEN}NO LEAKS${NC}"
 else
-  echo -e "${RED}LEAKS !${NC}"
-  cat log/valgrind_output
+  echo -e "${RED}LEAKS !${NC} : \e]8;;file://$(pwd)/log/valgrind_output\alog/valgrind_output\e]8;;\a"
 fi
 # echo "Errors val"
 # echo "fd"
