@@ -48,7 +48,7 @@ if diff -q log/minishell_stderr log/bash_stderr > /dev/null; then
   echo -e "STDERR : ${GREEN}OK${NC}"
 else
   echo -e "STDERR : ${RED}KO${NC}"
-  diff minishell_stderr bash_stderr
+  diff log/minishell_stderr log/bash_stderr
 fi
 
 if diff -q log/minishell_output log/bash_output > /dev/null; then
@@ -59,13 +59,11 @@ else
 fi
 
 if [[ "$EXIT_CODE_P" -ne "$EXIT_CODE_B" ]]; then
-  echo -e "EXIT CODE : ${RED}KO${NC}"
+  echo -e "EXIT : ${RED}KO${NC}"
   echo -e "bash : $EXIT_CODE_B\nminishell: $EXIT_CODE_P"
 else
-  echo -e "EXIT CODE : ${GREEN}OK${NC}"
+  echo -e "EXIT : ${GREEN}OK${NC}"
 fi
-
-# echo "Outfile >"
 # echo "Outfile >>"
 #
 
@@ -79,4 +77,4 @@ fi
 # echo "fd"
 # echo "childs"
 #
-# ./handy_minishell_tester.sh pwd cd "env | grep 'PATH'"
+# ./muffinette.sh ls cd pwd "cd 42" ls "cd .." "env | grep PATH"
