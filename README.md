@@ -17,6 +17,10 @@ Make sure to first mkdir "bonus" and put all your bonus files inside, then run i
 ```bash
 ./rename_bonus.sh
 ```
+in case of error, try :
+```bash
+bash rename_bonus.sh
+```
 
 ### eval.sh (Ongoing)
 To run at start of an evaluation to check norm, project name and compiling with makefile.
